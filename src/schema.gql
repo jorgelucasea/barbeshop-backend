@@ -89,7 +89,7 @@ input UpdateClientInput {
 input NewBabeiroInput {
   name: String!
   telephone: String!
-  birthday: DateTime
+  birtday: DateTime
 }
 
 input NewAgendamentoInput {
