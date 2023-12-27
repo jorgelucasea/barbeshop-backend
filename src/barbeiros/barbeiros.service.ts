@@ -11,11 +11,16 @@ export class BarbeirosService {
         private barbeirosRepository: Repository<Barbeiros>,
     ) {}
 
+    async findAll(): Promise<Barbeiros[]> {
+        return await this.barbeirosRepository.find({relations: ['agendamentos']});
+    }
+
     async findById(id: number): Promise<Barbeiros> {
         return await this.barbeirosRepository.findOne({
             where: {
-                id,
+                id
             },
+            relations: ['agendamentos'],
         });
     }
 

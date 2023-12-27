@@ -7,6 +7,7 @@ import { BarbeirosService } from "./barbeiros.service";
 @Module({
     imports: [TypeOrmModule.forFeature([Barbeiros])],
     providers: [BarbeirosResolver, BarbeirosService],
+    exports: [BarbeirosService]
 })
 
 export class BarbeirosModule {}

@@ -20,6 +20,11 @@ export class BarbeirosResolver {
         return barbeiro;
     }
 
+    @Query(returns => [Barbeiros])
+    async barbeiros(): Promise<Barbeiros[]> {
+        return this.barbeirosService.findAll();
+    }
+
     @Mutation(returns => Barbeiros)
     async addBarbeiro(
         @Args('newBarbeiroData') newBarbeiroData: NewBabeiroInput,

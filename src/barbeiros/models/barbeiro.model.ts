@@ -10,19 +10,19 @@ export class Barbeiros {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Field({nullable: true})
-  @Column({nullable: true})
+  @Field()
+  @Column()
   name: string;
 
-  @Field({nullable: true})
-  @Column({nullable: true})
+  @Field()
+  @Column()
   telephone: string;
 
-  @Field({nullable: true})
-  @Column({nullable: true})
+  @Field()
+  @Column()
   birtday: Date;
 
   @Field(type => [Agendamentos], {nullable: true})
-  @OneToMany(type => Agendamentos, agendamento => agendamento.barbeiro)
+  @OneToMany(() => Agendamentos, agendamento => agendamento.barbeiro)
   agendamentos: Agendamentos[];
 }
