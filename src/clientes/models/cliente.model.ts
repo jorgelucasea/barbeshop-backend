@@ -1,19 +1,32 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Field, ID, InputType, ObjectType } from '@nestjs/graphql';
+import { Agendamentos } from 'src/agendamentos/models/agendamento.model';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
-@ObjectType()
-export class ClienteModel {
-  @Field(type => ID)
-  id: string;
+@InputType("ClienteInput")
+@ObjectType('Cliente')
+@Entity('clientes')
+export class Clientes {
+    @Field(type => ID)
+    @PrimaryGeneratedColumn()
+    id: number;
 
-  @Field()
-  name: string;
+    @Field()
+    @Column()
+    name: string;
 
-  @Field()
-  email: string;
+    @Field()
+    @Column()
+    email: string;
 
-  @Field()
-  telephone: string;
+    @Field()
+    @Column()
+    telephone: string;
 
-  @Field()
-  birtday: Date;
+    @Field()
+    @Column()
+    birtday: Date;
+
+    @Field(type => [Agendamentos], {nullable: true})
+    @OneToMany(() => Agendamentos, agendamento => agendamento.cliente)
+    agendamentos: Agendamentos[];
 }
