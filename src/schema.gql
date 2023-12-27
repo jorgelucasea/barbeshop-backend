@@ -2,12 +2,12 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type ClienteModel {
+type Barbeiro {
   id: ID!
-  name: String!
-  email: String!
-  telephone: String!
-  birtday: DateTime!
+  name: String
+  telephone: String
+  birtday: DateTime
+  agendamentos: [Agendamento!]
 }
 
 """
@@ -15,15 +15,59 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type Agendamento {
+  id: ID!
+  date: DateTime!
+  servico: String!
+  clientes: Cliente!
+}
+
+type Cliente {
+  id: ID!
+  name: String!
+  email: String!
+  telephone: String!
+  birtday: DateTime!
+  agendamentos: [Agendamento!]
+}
+
+input BarbeiroInput {
+  id: ID!
+  name: String
+  telephone: String
+  birtday: DateTime
+  agendamentos: [AgendamentoInput!]
+}
+
+input AgendamentoInput {
+  id: ID!
+  date: DateTime!
+  servico: String!
+}
+
+input ClienteInput {
+  id: ID!
+  name: String!
+  email: String!
+  telephone: String!
+  birtday: DateTime!
+  agendamentos: [AgendamentoInput!]
+}
+
 type Query {
-  clientes: [ClienteModel!]!
-  cliente(id: Float!): ClienteModel!
+  clientes: [Cliente!]!
+  cliente(id: Float!): Cliente!
+  barbeiro(id: Float!): Barbeiro!
+  agendamentos: [Agendamento!]!
+  agendamento(id: Float!): Agendamento!
 }
 
 type Mutation {
-  addCliente(newClienteData: NewClienteInput!): ClienteModel!
-  updateCliente(id: Float!, newClienteData: UpdateClientInput!): ClienteModel!
-  deleteCliente(id: Float!): ClienteModel!
+  addCliente(newClienteData: NewClienteInput!): Cliente!
+  updateCliente(id: Float!, newClienteData: UpdateClientInput!): Cliente!
+  deleteCliente(id: Float!): Cliente!
+  addBarbeiro(newBarbeiroData: NewBabeiroInput!): Barbeiro!
+  addAgendamento(agendamentoInput: NewAgendamentoInput!): Agendamento!
 }
 
 input NewClienteInput {
@@ -38,4 +82,17 @@ input UpdateClientInput {
   email: String
   telephone: String
   birtday: DateTime
+}
+
+input NewBabeiroInput {
+  name: String!
+  telephone: String!
+  birtday: DateTime
+}
+
+input NewAgendamentoInput {
+  date: DateTime!
+  servico: String!
+  cliente_id: ID!
+  barbeiro_id: ID!
 }

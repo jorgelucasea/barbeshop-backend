@@ -4,6 +4,8 @@ import { Module } from '@nestjs/common';
 import { join } from 'path';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ClientesModule } from './clientes/clientes.module';
+import { BarbeirosModule } from './barbeiros/barbeiros.module';
+import { AgendamentosModule } from './agendamentos/agendamentos.module';
 
 @Module({
   imports: [
@@ -18,10 +20,12 @@ import { ClientesModule } from './clientes/clientes.module';
     username: 'your_user',
     password: 'your_password',
     database: 'barbershop_schema',
-    entities: [__dirname + '***/**/*.entity{.ts,.js}'],
+    entities: [__dirname + '****/***/**/*.model{.ts,.js}'],
     synchronize: true,
   }),
   ClientesModule,
+  BarbeirosModule,
+  AgendamentosModule,
 ],
 })
 export class AppModule {}
