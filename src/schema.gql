@@ -17,10 +17,13 @@ scalar DateTime
 
 type Query {
   clientes: [ClienteModel!]!
+  cliente(id: Float!): ClienteModel!
 }
 
 type Mutation {
   addCliente(newClienteData: NewClienteInput!): ClienteModel!
+  updateCliente(id: Float!, newClienteData: UpdateClientInput!): ClienteModel!
+  deleteCliente(id: Float!): ClienteModel!
 }
 
 input NewClienteInput {
@@ -28,4 +31,11 @@ input NewClienteInput {
   email: String!
   telephone: String!
   birtday: DateTime!
+}
+
+input UpdateClientInput {
+  name: String
+  email: String
+  telephone: String
+  birtday: DateTime
 }
