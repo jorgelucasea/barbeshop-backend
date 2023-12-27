@@ -4,9 +4,9 @@
 
 type Barbeiro {
   id: ID!
-  name: String
-  telephone: String
-  birtday: DateTime
+  name: String!
+  telephone: String!
+  birtday: DateTime!
   agendamentos: [Agendamento!]
 }
 
@@ -19,6 +19,7 @@ type Agendamento {
   id: ID!
   date: DateTime!
   servico: String!
+  barbeiros: Barbeiro!
   clientes: Cliente!
 }
 
@@ -33,9 +34,9 @@ type Cliente {
 
 input BarbeiroInput {
   id: ID!
-  name: String
-  telephone: String
-  birtday: DateTime
+  name: String!
+  telephone: String!
+  birtday: DateTime!
   agendamentos: [AgendamentoInput!]
 }
 
@@ -58,6 +59,7 @@ type Query {
   clientes: [Cliente!]!
   cliente(id: Float!): Cliente!
   barbeiro(id: Float!): Barbeiro!
+  barbeiros: [Barbeiro!]!
   agendamentos: [Agendamento!]!
   agendamento(id: Float!): Agendamento!
 }
@@ -87,7 +89,7 @@ input UpdateClientInput {
 input NewBabeiroInput {
   name: String!
   telephone: String!
-  birtday: DateTime
+  birthday: DateTime
 }
 
 input NewAgendamentoInput {

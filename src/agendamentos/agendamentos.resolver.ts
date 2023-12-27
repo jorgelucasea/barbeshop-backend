@@ -4,6 +4,7 @@ import { AgendamentosServices } from "./agendamentos.service";
 import { NewAgendamentoInput } from "./dto/new-agendamento.input";
 import { Clientes } from "src/clientes/models/cliente.model";
 import { Logger } from '@nestjs/common';
+import { Barbeiros } from "src/barbeiros/models/barbeiro.model";
 
 
 @Resolver(of => Agendamentos)
@@ -11,6 +12,19 @@ export class AgendamentosResolver {
     constructor(private readonly agendamentoService: AgendamentosServices) {}
 
     private readonly logger = new Logger(AgendamentosResolver.name);
+
+    @ResolveField('barbeiros', returns => Barbeiros)
+    async getBarbeiro(@Parent() agendamento: Agendamentos) {
+        const { id } = agendamento;
+        this.logger.log(`id: ${id}`, agendamento.barbeiro.id);
+        const barbeiro = await this.agendamentoService.findBarbeiroByAppointmentId(agendamento.barbeiro.id);
+        if (!barbeiro) {
+            // Handle the case where the barbeiro is not found - either log, throw an error, or decide on a valid approach
+            throw new Error(`Barbeiro not found for appointment with ID ${agendamento.id}`);
+        }
+  
+        return barbeiro;
+    }
 
     @ResolveField('clientes', returns => Clientes)
     async getCliente(@Parent() agendamento: Agendamentos) {

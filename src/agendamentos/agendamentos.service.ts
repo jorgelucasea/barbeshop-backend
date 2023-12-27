@@ -6,14 +6,25 @@ import { NewAgendamentoInput } from "./dto/new-agendamento.input";
 import { ClientesService } from "src/clientes/clientes.service";
 import { Clientes } from "src/clientes/models/cliente.model";
 import { Barbeiros } from "src/barbeiros/models/barbeiro.model";
+import { BarbeirosService } from "src/barbeiros/barbeiros.service";
 
 @Injectable()
 export class AgendamentosServices {
     constructor(
         @InjectRepository(Agendamentos)
         private agendamentosRepository: Repository<Agendamentos>,
-        private readonly clientesService: ClientesService
+        private readonly clientesService: ClientesService,
+        private readonly barbeirosService: BarbeirosService,
     ) {}
+
+    async findBarbeiroByAppointmentId(id: number) {
+        const barbeiro = await this.barbeirosService.findById(id)
+        if(!barbeiro) {
+            throw new Error(`Barbeiro not found for appointment with ID ${id}`);
+        }
+        
+        return barbeiro;
+    }
 
     async findClientByAppointmentId(id: number) {
         const cliente = await this.clientesService.findById(id)
@@ -34,7 +45,7 @@ export class AgendamentosServices {
     }
 
     async findAll(): Promise<Agendamentos[]> {
-        return await this.agendamentosRepository.find({relations: ['cliente']});
+        return await this.agendamentosRepository.find({relations: ['cliente', 'barbeiro']});
     }
 
     async findById(id: number): Promise<Agendamentos> {
@@ -42,7 +53,7 @@ export class AgendamentosServices {
             where: {
                 id
             },
-            relations: ['cliente'],
+            relations: ['cliente', 'barbeiro'],
         });
     }
 }
