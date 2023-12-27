@@ -1,22 +1,22 @@
-import { Resolver, Mutation, Args, Query} from '@nestjs/graphql';
+import { Resolver, Mutation, Args, Query, ResolveField, Parent} from '@nestjs/graphql';
 import { NotFoundException } from '@nestjs/common';
 import { ClientesService } from './clientes.service';
 import { NewClienteInput } from './dto/new-cliente.input';
-import { ClienteModel } from './models/cliente.model';
-import { Cliente } from 'src/repository/clientes.entity';
+import { Clientes } from './models/cliente.model';
 import { UpdateClientInput } from './dto/update-client.input';
+import { Agendamentos } from 'src/agendamentos/models/agendamento.model';
 
-@Resolver(of => ClienteModel)
+@Resolver(of => Clientes)
 export class ClientesResolver {
     constructor(private readonly clientesService: ClientesService) {}
 
-    @Query(returns => [ClienteModel])
-    async clientes(): Promise<Cliente[]> {
+    @Query(returns => [Clientes])
+    async clientes(): Promise<Clientes[]> {
         return this.clientesService.findAll();
     }
 
-    @Query(returns => ClienteModel)
-    async cliente(@Args('id') id: number): Promise<Cliente> {
+    @Query(returns => Clientes)
+    async cliente(@Args('id') id: number): Promise<Clientes> {
         const cliente = await this.clientesService.findById(id);
         if(!cliente) {
             throw new NotFoundException(`Cliente with id ${id} not found`, 'CLIENTE_NOT_FOUND');
@@ -25,26 +25,26 @@ export class ClientesResolver {
         return cliente;
     }
     
-    @Mutation(returns => ClienteModel)
+    @Mutation(returns => Clientes)
     async addCliente(
         @Args('newClienteData') newClienteData: NewClienteInput,
-    ): Promise<Cliente> {
+    ): Promise<Clientes> {
         const cliente = await this.clientesService.create(newClienteData);
         return cliente;
     }
 
-    @Mutation(returns => ClienteModel)
+    @Mutation(returns => Clientes)
     async updateCliente(
         @Args('id') id: number,
         @Args('newClienteData') newClienteData: UpdateClientInput,
-    ): Promise<Cliente> {
+    ): Promise<Clientes> {
         return this.clientesService.update(id, newClienteData);
     }
 
-    @Mutation(returns => ClienteModel)
+    @Mutation(returns => Clientes)
     async deleteCliente(
         @Args('id') id: number,
-    ): Promise<Cliente> {
+    ): Promise<Clientes> {
         return this.clientesService.delete(id);
     }
 }
