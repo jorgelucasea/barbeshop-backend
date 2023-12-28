@@ -8,6 +8,7 @@ import {
     ManyToOne,
     JoinColumn,
 } from 'typeorm';
+import { BarberService } from './agendamento-servicos.enum';
 
 
 @InputType("AgendamentoInput")
@@ -22,9 +23,17 @@ export class Agendamentos {
     @Column()
     date: Date;
 
+    @Field(type => [BarberService], {nullable: true})
+    @Column({
+        type: 'simple-array',
+        enum: BarberService,
+        nullable: true,
+    })
+    servico: BarberService[];
+
     @Field()
     @Column()
-    servico: string;
+    horario_fim: Date;
 
     @ManyToOne(() => Clientes, cliente => cliente.agendamentos, { nullable: true})
     @JoinColumn({ name: 'cliente_id' })

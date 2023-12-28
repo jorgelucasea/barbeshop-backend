@@ -18,9 +18,17 @@ scalar DateTime
 type Agendamento {
   id: ID!
   date: DateTime!
-  servico: String!
+  servico: [BarberService!]
+  horario_fim: DateTime!
   barbeiros: Barbeiro!
   clientes: Cliente!
+}
+
+enum BarberService {
+  CABELO
+  BARBA
+  BARBA_E_CABELO
+  PINTAR
 }
 
 type Cliente {
@@ -43,7 +51,8 @@ input BarbeiroInput {
 input AgendamentoInput {
   id: ID!
   date: DateTime!
-  servico: String!
+  servico: [BarberService!]
+  horario_fim: DateTime!
 }
 
 input ClienteInput {
@@ -94,7 +103,7 @@ input NewBabeiroInput {
 
 input NewAgendamentoInput {
   date: DateTime!
-  servico: String!
+  servico: [BarberService!]!
   cliente_id: ID!
   barbeiro_id: ID!
 }
